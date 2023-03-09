@@ -20,13 +20,10 @@ Upon execution you will find a github markdown file downloaded to the Temp direc
 **auto_generated_guid:** f63b8bc4-07e5-4112-acba-56f646f3f0bc
 
 
-
-
-
 #### Inputs:
 | Name | Description | Type | Default Value |
 |------|-------------|------|---------------|
-| remote_file | Remote file to download | url | https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md|
+| remote_file | Remote file to download | url | https://github.com/rTHREAT/Resources/blob/main/T1197-BITS_Jobs.md|
 | local_file | Local file path to save downloaded file | path | $env:TEMP&#92;bitsadmin2_flag.ps1|
 
 
@@ -40,46 +37,4 @@ Start-BitsTransfer -Priority foreground -Source #{remote_file} -Destination #{lo
 #### Cleanup Commands:
 ```powershell
 Remove-Item #{local_file} -ErrorAction Ignore
-```
-
-
-
-
-
-<br/>
-<br/>
-
-This test simulates using desktopimgdownldr.exe to download a malicious file
-instead of a desktop or lockscreen background img. The process that actually makes 
-the TCP connection and creates the file on the disk is a svchost process (“-k netsvc -p -s BITS”) 
-and not desktopimgdownldr.exe. See https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/
-
-**Supported Platforms:** Windows
-
-
-**auto_generated_guid:** afb5e09e-e385-4dee-9a94-6ee60979d114
-
-
-
-
-
-#### Inputs:
-| Name | Description | Type | Default Value |
-|------|-------------|------|---------------|
-| remote_file | Remote file to download | url | https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md|
-| download_path | Local file path to save downloaded file | path | SYSTEMROOT=C:&#92;Windows&#92;Temp|
-| cleanup_path | path to delete file as part of cleanup_command | path | C:&#92;Windows&#92;Temp&#92;Personalization&#92;LockScreenImage|
-| cleanup_file | file to remove as part of cleanup_command | string | *.md|
-
-
-#### Attack Commands: Run with `command_prompt`! 
-
-
-```cmd
-set "#{download_path}" && cmd /c desktopimgdownldr.exe /lockscreenurl:#{remote_file} /eventName:desktopimgdownldr
-```
-
-#### Cleanup Commands:
-```cmd
-del #{cleanup_path}\#{cleanup_file} >nul 2>&1
 ```
